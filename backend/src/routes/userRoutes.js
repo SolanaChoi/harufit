@@ -1,16 +1,12 @@
-// backend/src/routes/userRoutes.js
 const express = require('express');
-const userController = require('../controllers/userController'); // 컨트롤러를 불러옵니다.
-
 const router = express.Router();
+const userController = require('../controllers/userController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-// GET /api/users/me 엔드포인트: 현재 사용자 정보를 가져옵니다.
-router.get('/me', userController.getCurrentUser);
+// POST /api/users - 로그인 또는 회원가입
+router.post('/', userController.createUser);
 
-
-// POST /api/users 엔드포인트: 새로운 사용자를 생성합니다. (회원가입/닉네임 설정)
-router.post('/', userController.createUser); // 새로 추가
-router.get('/:nickname', userController.getUser);
-
+// PUT /api/users/mode - 사용자 모드 변경
+router.put('/mode', authMiddleware, userController.updateUserMode);
 
 module.exports = router;

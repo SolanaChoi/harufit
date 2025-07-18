@@ -1,15 +1,14 @@
+/* frontend/src/components/common/modeDescription.css */
+
 .mode-description {
   position: absolute;
   top: 50%;
-  left: -140%;
-  /* ✔ 버튼의 왼쪽 바깥쪽 */
+  left: -140px; /* ✅ 숨겨져 있을 때의 초기 위치 (픽셀 값으로 조정) */
   transform: translateY(-50%);
   color: white;
   font-weight: 700;
   font-size: 1.15rem;
   white-space: nowrap;
-
-  /* ✅ 배경 제거 */
   background: transparent;
   border: none;
   box-shadow: none;
@@ -17,7 +16,16 @@
 
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  /* ✅ left, opacity, visibility 속성에 대한 transition 추가 */
+  transition: opacity 0.3s ease-in-out, left 0.3s ease-in-out, visibility 0.3s ease-in-out;
 
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  z-index: 4; /* ✅ 버튼보다 위에 오도록 z-index 설정 */
+}
+
+/* ✅ 'is-visible' 클래스가 추가되었을 때의 스타일 */
+.mode-description.is-visible {
+  opacity: 1; /* 보이게 함 */
+  visibility: visible; /* 보이게 함 */
+  left: -180px; /* ✅ 버튼 왼쪽으로 나타날 최종 위치 (이 값은 조절이 필요할 수 있습니다) */
 }

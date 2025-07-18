@@ -1,0 +1,207 @@
+@import '../../styles/common.css';
+
+.calendar-expanded-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.96);
+    opacity: 0;
+    z-index: 100;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    width: 90vw;
+    max-width: 980px;
+    min-height: 300px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.calendar-expanded-wrapper.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+.calendar-expanded {
+    flex: 1.8;
+    min-width: 550px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 10px;
+}
+
+.month-title {
+    font-size: 1.6rem;
+}
+
+.nav-icon {
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #444;
+    user-select: none;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    height: 450px; /* 달력 높이 고정 */
+}
+
+.day-header {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 8px;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.calendar-cell {
+    background: #f9f9f9;
+    border-radius: 8px;
+    position: relative;
+    padding: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.calendar-cell:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.calendar-cell.empty {
+    background-color: transparent;
+    cursor: default;
+}
+
+.calendar-cell.empty:hover {
+    transform: none;
+}
+
+.calendar-cell.selected {
+    background-color: #836eff;
+    color: white;
+    transform: scale(1.05);
+}
+
+.calendar-cell.selected .date-number {
+    color: white;
+}
+
+.date-number {
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.icon-container {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 10px;
+}
+
+.icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.icon.purple { background-color: #836eff; }
+.icon.green { background-color: #36c768; }
+
+.calendar-summary {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 12px;
+}
+
+.box {
+    flex: 1;
+    padding: 12px;
+    background: #f4f6fa;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.label, .stat {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.strong {
+    display: block;
+    font-size: 1.3rem;
+    margin: 4px 0;
+    font-weight: bold;
+}
+
+.stat.workout { color: #5cb85c; }
+.stat.calorie { color: #d9534f; }
+.stat.weight { color: #0275d8; font-weight: bold; }
+
+.details-pane {
+    flex: 1;
+    min-width: 280px;
+    padding: 16px;
+    background: #f8f9fc;
+    border-radius: 12px;
+}
+
+.details-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.details-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.details-content li {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    border: 1px solid #eee;
+}
+
+.detail-section {
+    margin-bottom: 20px;
+}
+
+.detail-section h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.no-data-message {
+    color: #999;
+    text-align: center;
+    padding-top: 40px;
+    font-size: 0.9rem;
+}

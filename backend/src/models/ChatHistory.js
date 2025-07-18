@@ -40,4 +40,6 @@ const ChatHistorySchema = mongoose.Schema(
 );
 
 const ChatHistory = mongoose.model('ChatHistory', ChatHistorySchema);
+
 module.exports = ChatHistory;
+

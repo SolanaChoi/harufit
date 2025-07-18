@@ -1,68 +1,103 @@
 // backend/src/services/aiService.js
 const OpenAI = require('openai');
-require('dotenv').config(); // ✅ 추가: .env 파일을 로드합니다.
+const dotenv = require('dotenv');
+dotenv.config();
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ✅ 함수 이름과 매개변수를 aiController.js에 맞게 수정했습니다.
-async function getAiChatResponse(userMessage, user) {
-    let aiResponseMessage = '';
-    let extractedData = null; // 파싱된 데이터를 담을 변수
+// ✅ AI의 호칭 관련 지침을 시스템 프롬프트에 추가
+const systemPrompt = `당신은 사용자의 건강을 책임지는 AI 코치입니다. 스스로를 '하루핏 매니저'라고 칭하세요. 단, AI 기술, 데이터 분석 등 기술적인 측면을 강조해야 할 때는 '하루핏 AI 매니저'라고 칭할 수 있습니다. 항상 친절하고 동기를 부여하는 말투로 대화하세요.
+사용자의 메시지에서 식단이나 운동 기록을 발견하면, 자연스러운 대화 응답을 먼저 하세요.
+그 다음, **줄을 바꾸고 반드시 \`[DATA_START]\`와 \`[DATA_END]\` 사이에** 추출한 정보를 JSON 형식으로 추가하세요.
+JSON 데이터가 없다면 \`[DATA_START]\` 블록을 포함하지 마세요.
 
+- 식단 JSON: {"type": "diet", "food": "음식 이름", "calories": 숫자}
+- 운동 JSON: {"type": "workout", "exercise": "운동 이름", "duration": 숫자(분), "calories_burned": 숫자}
+
+예시 1:
+사용자: 오늘 닭가슴살 샐러드 먹고 스쿼트 30분 했어.
+당신: 닭가슴살 샐러드와 스쿼트, 정말 건강한 하루를 보내셨네요! 꾸준함이 중요해요.
+[DATA_START]
+{"type": "diet", "food": "닭가슴살 샐러드", "calories": 350}
+[DATA_END]
+[DATA_START]
+{"type": "workout", "exercise": "스쿼트", "duration": 30}
+[DATA_END]
+
+예시 2:
+사용자: 너무 피곤해요 ㅠㅠ
+당신: 많이 피곤하시군요. 그럴 땐 무리하지 않고 충분히 휴식을 취하는 것도 중요해요. 내일 더 힘내면 되죠!
+`;
+
+exports.getAiChatResponse = async (userMessage, history, userContext) => {
     try {
-        // LLM 프롬프트 설계: 사용자의 모드와 닉네임을 포함하여 개인화 유도
-        const userMode = user ? user.mode : 'easy';
-        const userNickname = user ? user.nickname : '사용자';
+        const messages = [
+            { role: "system", content: systemPrompt },
+            ...history, // 이전 대화 기록 (프론트엔드에서 전달)
+            { role: "user", content: `(참고: 내 닉네임은 ${userContext.nickname}이고, 목표 체중은 ${userContext.targetWeight || '미설정'}kg이야) ${userMessage}` }
+        ];
 
-        // GPT-4o 모델 사용 (가장 성능이 좋고 파싱에 유리)
         const chatCompletion = await openai.chat.completions.create({
-            model: "gpt-4o", // 가장 최신 모델 사용
-            messages: [
-                { role: "system", content: `당신은 하루핏(HARUFIT) 매니저입니다. 사용자의 건강을 돕는 친절하고 공감능력 있는 AI 웰니스 코치입니다. 현재 사용자 모드는 '${userMode}' 입니다. 사용자의 닉네임은 '${userNickname}'입니다. 사용자의 메시지를 이해하고, 필요한 경우 식단이나 운동 정보를 추출하여 JSON 형태로 제공해주세요. 감정이나 핑계도 이해하고 공감해주세요.` },
-                { role: "user", content: userMessage },
-                { role: "system", content: `사용자 '${userNickname}'님의 메시지를 받았습니다. 어떤 도움을 드릴까요? 식단/운동 정보가 있다면 다음 JSON 형식으로 추출해주세요: {"type": "diet/workout/general", "details": "파싱된 정보", "aiResponse": "AI의 답변"}` }
-                // LLM에게 JSON 포맷을 명시적으로 요구하는 것이 파싱에 유리합니다.
-            ],
-            response_format: { type: "json_object" } // JSON 응답 형식 강제
+            model: "gpt-4o",
+            messages: messages,
         });
 
-        const rawResponseContent = chatCompletion.choices[0].message.content;
-        console.log("Raw AI Response:", rawResponseContent); // 디버깅용
+        const fullResponse = chatCompletion.choices[0].message.content;
 
-        try {
-            const parsedResponse = JSON.parse(rawResponseContent);
-            aiResponseMessage = parsedResponse.aiResponse || "이해했습니다. 더 자세히 말씀해주세요."; // AI의 답변 부분
-            extractedData = parsedResponse.extractedData || null; // 추출된 데이터 부분
-
-            // **아주 기본적인 파싱 및 분류 로직 (MVP):**
-            // 여기서는 LLM이 JSON으로 잘 줬다고 가정하고, LLM이 'type'을 잘 분류해줬다고 가정
-            if (extractedData && extractedData.type === 'diet') {
-                aiResponseMessage = `${userNickname}님, 식단 정보를 기록할게요! ${extractedData.details} 잘하셨습니다!`;
-            } else if (extractedData && extractedData.type === 'workout') {
-                aiResponseMessage = `${userNickname}님, 운동 정보를 기록할게요! ${extractedData.details} 정말 대단합니다!`;
-            } else {
-                // 일반 대화 (감정, 핑계 등)
-                aiResponseMessage = parsedResponse.aiResponse || `(${userNickname}님) ${userMessage}에 대해 제가 도울 수 있는 것을 말씀해주세요.`;
+        // AI 응답에서 대화와 데이터를 분리하는 로직
+        const conversationalReply = fullResponse.split('[DATA_START]')[0].trim();
+        const extractedData = [];
+        
+        const dataRegex = /\[DATA_START\]([\s\S]*?)\[DATA_END\]/g;
+        let match;
+        while ((match = dataRegex.exec(fullResponse)) !== null) {
+            try {
+                extractedData.push(JSON.parse(match[1].trim()));
+            } catch (e) {
+                console.error("JSON 파싱 오류:", e);
             }
-
-
-        } catch (jsonError) {
-            // LLM이 JSON 형식으로 응답하지 않았을 경우
-            console.warn("AI 응답이 JSON 형식이 아닙니다. 일반 텍스트로 처리합니다:", rawResponseContent);
-            aiResponseMessage = rawResponseContent;
-            extractedData = null; // 파싱 실패
         }
 
+        return {
+            conversationalReply, // 사용자에게 보여줄 순수 대화
+            extractedData: extractedData.length > 0 ? extractedData : null, // 서버에서 처리할 데이터
+        };
 
     } catch (error) {
-        console.error('OpenAI API 호출 오류:', error.response ? error.response.data : error.message);
-        aiResponseMessage = '죄송합니다, 현재 AI 코치와 연결이 원활하지 않습니다.';
-        extractedData = null;
+        console.error('AI 응답 생성 중 오류 발생:', error);
+        throw new Error('하루핏 AI 매니저의  응답 생성에 실패했습니다.');
     }
+};
 
-    return { aiResponseMessage, extractedData };
-}
 
-module.exports = { getAiChatResponse }; // ✅ 여기서 함수를 올바른 이름으로 내보냅니다.
+// getNutritionEstimate 함수는 그대로 유지됩니다.
+exports.getNutritionEstimate = async (foodName) => {
+    try {
+        const prompt = `${foodName}의 일반적인 1회 제공량(또는 100g 기준)에 대한 칼로리(kcal), 단백질(g), 탄수화물(g), 지방(g)을 JSON 형식으로 알려줘. 정확한 숫자만 포함하고, 불필요한 설명은 제외해줘.
+    예시: {"calories": 150, "protein": 10, "carbs": 20, "fat": 5}`;
+
+        const chatCompletion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+                { role: "user", content: prompt }
+            ],
+            response_format: { type: "json_object" },
+        });
+
+        const text = chatCompletion.choices[0].message.content;
+        const parsed = JSON.parse(text);
+
+        return {
+            calories: parseFloat(parsed.calories) || 0,
+            protein: parseFloat(parsed.protein) || 0,
+            carbs: parseFloat(parsed.carbs) || 0,
+            fat: parseFloat(parsed.fat) || 0,
+        };
+
+    } catch (error) {
+        console.error('OpenAI를 통한 영양 정보 추정 중 오류 발생:', error);
+        throw new Error("식품 영양성분 정보를 가져오는 데 실패했습니다.");
+    }
+};

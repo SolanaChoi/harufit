@@ -1,0 +1,107 @@
+/* 전체 컨테이너 */
+.workout-expanded-container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  width: 95vw;
+  max-width: 640px; 
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  color: #374151;
+  font-family: 'Inter', 'Pretendard', sans-serif;
+}
+
+/* 헤더 */
+.workout-expanded-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid #f3f4f6; }
+.workout-expanded-header h2 { font-size: 1.25rem; font-weight: 900; color: #111827; }
+.close-button { background: none; border: none; color: #9ca3af; cursor: pointer; padding: 4px; }
+.close-button:hover { color: #374151; }
+
+/* 매니저 팁 */
+.manager-tip-section { background-color: #f9fafb; border-radius: 10px; padding: 12px; font-size: 0.8rem; line-height: 1.5; }
+
+/* 메인 컨텐츠 */
+.workout-expanded-main { display: grid; grid-template-columns: 1fr 1.5fr; gap: 16px; }
+
+/* 메인 비주얼 (도넛차트) - 그라데이션 및 입체감 강화 */
+.main-visual-section { display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f9fafb; border-radius: 10px; padding: 16px; }
+.donut-chart-container { position: relative; width: 120px; height: 120px; }
+.donut-chart-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut-chart-bg, .donut-chart-segment { fill: none; stroke-width: 16; }
+.donut-chart-bg { stroke: #f3f4f6; }
+.donut-chart-segment { 
+  stroke-linecap: round; 
+  transition: all 0.5s ease;
+}
+/* 그라데이션 적용 */
+.segment-cardio { stroke: url(#gradCardio); } 
+.segment-strength { stroke: url(#gradStrength); }
+.segment-flexibility { stroke: url(#gradFlexibility); }
+
+.donut-chart-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.total-calories { font-size: 1.8rem; font-weight: 900; color: #111827; }
+.calories-unit { font-size: 0.8rem; color: #6b7280; }
+
+/* 범례 스타일 수정 */
+.chart-legend { display: flex; justify-content: center; gap: 16px; margin-top: 16px; font-size: 0.8rem; font-weight: 600; }
+.legend-item.segment-cardio { color: #3b82f6; }
+.legend-item.segment-strength { color: #10b981; }
+.legend-item.segment-flexibility { color: #f59e0b; }
+
+/* 운동 기록 목록 */
+.workout-log-section { background-color: #f9fafb; border-radius: 10px; padding: 16px; }
+.workout-log-section label { font-weight: 600; font-size: 0.8rem; color: #3440; margin-bottom: 10px; display: block; }
+.workout-log-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem; }
+.workout-log-list li { display: flex; justify-content: space-between; align-items: center; }
+.workout-name { font-weight: 500; }
+.workout-details { color: #6b7280; font-size: 0.75rem; }
+
+/* 주간 목표 */
+.weekly-goal-section { background-color: #f9fafb; border-radius: 10px; padding: 12px; }
+.weekly-goal-section label { font-weight: 600; font-size: 0.8rem; color: #343a40; margin-bottom: 10px; display: block; }
+.weekly-chart { display: flex; justify-content: space-around; align-items: flex-end; height: 80px; }
+.day-achievement { width: 12%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; }
+.bar-wrapper { width: 26px; height: 100%; background-color: #e5e7eb; border-radius: 5px; display: flex; align-items: flex-end; }
+.bar { width: 100%; border-radius: 5px; transition: height 0.4s ease-out; position: relative; }
+.bar.good { background-color: #818cf8; }
+.bar.over { background-color: #a78bfa; }
+.bar-tooltip { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #374151; color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.6rem; font-weight: 600; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; }
+.day-achievement:hover .bar-tooltip { opacity: 1; }
+.day-label { font-size: 0.7rem; color: #6b7280; font-weight: 500; padding: 2px 6px; border-radius: 6px; }
+.day-label.today { background-color: #FCE7F3; color: #DB2777; font-weight: 700; }
+
+/* 푸터 구조 변경 */
+.workout-expanded-footer { 
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+  padding-top: 10px; 
+  border-top: 1px solid #f3f4f6; 
+}
+.recommendations-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.recommendation-section { background-color: #f9fafb; border-radius: 10px; padding: 12px; }
+.log-action-section { display: flex; justify-content: center; align-items: center; }
+.recommendation-section h4 { font-weight: 600; font-size: 0.8rem; color: #343a40; margin-bottom: 8px; }
+.recommend-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.75rem; }
+.recommend-list li { display: flex; justify-content: space-between; }
+.log-workout-btn {
+  width: 50%;
+  padding: 12px 16px; 
+
+  border-radius: 8px;
+  border: none;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+.log-workout-btn:hover { background-color: #2563eb; }

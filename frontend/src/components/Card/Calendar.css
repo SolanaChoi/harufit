@@ -1,39 +1,67 @@
-@import 'C:\Course_Video\harufit\frontend\src\styles\common.css';
+@import '../../styles/common.css';
 
 .calendar-card {
-    padding: 20px;
-    min-height: 20;
+    padding: 10px 16px;
+    min-height: auto;
+    /* 숫자 제거 */
+    box-sizing: border-box;
+    margin-top: 10px;   
+}
 
+.card-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: white;
+    text-align: center;
+    /* background: rgba(255, 182, 193, 0.9); */
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    padding: 8px;
+}
+
+/* 모드별 색깔 정의 */
+.card-header.easy-theme {
+    background-color: rgba(200, 230, 201, 0.9);
+}
+
+.card-header.normal-theme {
+    background-color: rgba(225, 190, 231, 0.9);
+}
+
+.card-header.hard-theme {
+    background-color: rgba(255, 205, 209, 0.9);
 }
 
 
+.calendar-card:hover .expand-btn {
+    opacity: 0.7;
+}
+
 .calendar-grid {
     display: grid;
+    padding: 5px 20px 20px 20px;
     grid-template-columns: repeat(7, 1fr);
     gap: 0px;
     text-align: center;
-    grid-area: auto;
-
 }
 
 .day-of-week {
     font-weight: bold;
     color: var(--text-color-dark);
-    padding: 5px 0;
-    font-size: 0.7rem;
+    padding: 4px 0;
+    font-size: 0.8rem;
 }
 
 .calendar-day {
-    padding: 5px 0;
     border-radius: 6px;
     transition: background-color 0.2s, color 0.2s;
     cursor: pointer;
     color: var(--text-color-light);
-    font-size: 0.7rem;
-    flex: 0.8;
+    font-size: 0.8rem;
     position: relative;
     cursor: pointer;
-
+    /* align-content: flex-start; */
 }
 
 .calendar-day:hover {
@@ -53,4 +81,49 @@
 
 .empty-day {
     padding: 5px 0;
+}
+
+@media (max-width: 768px) {
+    .calendar-card {
+        padding: 4px 6px;
+        max-height: 280px;
+        /* 고정 높이 제거 */
+        /* min-height: 135px; */
+        /* 적절한 기본값 */
+        box-sizing: border-box;
+        margin-top: 10px;
+    }
+
+    .calendar-grid {
+        padding-top: 4px;
+        gap: 1px;
+    }
+
+    .calendar-day,
+    .day-of-week {
+        font-size: 0.7rem;
+        padding: 0px;
+    }
+
+    @media (min-width: 900px) and (max-width: 1100px) {
+        .calendar-card {
+            min-width: 270px;
+            min-height: 190px;
+            padding: 8px 10px;
+            box-sizing: border-box;
+        }
+
+        .calendar-grid {
+            padding-top: 6px;
+            gap: 2px;
+        }
+
+        .calendar-day,
+        .day-of-week {
+            font-size: 0.75rem;
+            padding: 4px 2px;
+        }
+    }
+
+
 }

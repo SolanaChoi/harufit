@@ -1,309 +1,359 @@
-@import 'C:\Course_Video\harufit\frontend\src\styles\common.css'; 
+
+@import '../../styles/common.css';
 
 .homepage-container {
-    position: relative;
-    width: 100vw;
-    min-height: 100vh; 
-    overflow-y: auto; 
-    
-  }
-  
-  .background-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("../../assets/images/main_image.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: brightness(0.85);
-    z-index: 1;
-  }
-  
-  /* 모드 버튼들 - 상단 좌측 */
-  .mode-buttons {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    display: flex;
-    gap: 15px;
-    z-index: 10;
-  }
-  
-  .mode-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    font-size: 10px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mode-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .mode-btn.active {
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
-  }
-  
-  /* 좌측 메뉴바 */
-  .sidebar-menu {
-    position: absolute;
-    top: 180px;
-    left: 40px;
-    z-index: 10;
-  }
-  
-  .menu-list {
-    list-style: none;
-    padding: 0;
-    margin: 20;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .menu-list li {
-    padding: 12px 15px;
-    border-radius: 7px;
-    color: rgba(111, 97, 185, 0.8);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    font-style: italic;
-    font-weight: 900;
-    text-shadow: 1px 1px 1px rgb(172, 163, 163);
-  }
-  
-  .menu-list li:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    transform: translateX(5px);
-  }
-  
-  .menu-list li.active {
-    background: rgba(255, 255, 255, 0.25);
-    color: white;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* 메인 카드 영역 */
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../assets/images/main_image.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.85);
+  z-index: 1;
+}
+
+/* 모드 버튼들 - 상단 좌측 */
+.mode-buttons {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.mode-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 비활성화된 버튼 기본 회색 */
+.mode-inactive {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 각 모드별 강조 버튼 */
+.mode-easy {
+  background-color: rgba(200, 230, 201, 0.9);
+  border: 2px solid white;
+  color: white;
+}
+
+.mode-normal {
+  background-color:rgba(225, 190, 231, 0.9);
+  border: 2px solid white;
+  color: white;
+}
+
+.mode-hard {
+  background-color: rgba(255, 205, 209, 0.9);
+  border: 2px solid white;
+  color: white;
+}
+
+.mode-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/* 좌측 메뉴바 */
+.sidebar-menu {
+  position: absolute;
+  top: 180px;
+  left: 40px;
+  z-index: 10;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-list li {
+  padding: 12px 15px;
+  border-radius: 7px;
+  color: rgba(111, 97, 185, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 900;
+  text-shadow: 1px 1px 1px rgb(172, 163, 163);
+}
+
+.menu-list li:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: translateX(5px);
+}
+
+.menu-list li.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 메인 카드 영역 */
+.main-cards-area {
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 650px;
+  z-index: 5;
+}
+
+.card-wrapper {
+  position: absolute;
+  width: 380px;
+  height: 300px;
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.card-wrapper:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 249, 249, 0.261);
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+.top-right {
+  top: 0;
+  right: 0;
+}
+
+.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.chat-area {
+  position: absolute;
+  top: 50%;
+  right: 300px;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 650px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1400px) {
   .main-cards-area {
-    position: absolute;
-    top: 50%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-    width: 800px;
-    height: 650px;
-    z-index: 5;
-  }
-  
-  .card-wrapper {
-    position: absolute;
-    width: 380px;
-    height: 300px;
-    backdrop-filter: blur(25px);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    
-  }
-  
-  .card-wrapper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    background: rgba(255, 249, 249, 0.15);
-  }
-  
-  .top-left {
-    top: 0;
-    left: 0;
-  }
-  
-  .top-right {
-    top: 0;
-    right: 0;
-  }
-  
-  .bottom-left {
-    bottom: 0;
-    left: 0;
-  }
-  
-  .bottom-right {
-    bottom: 0;
-    right: 0;
-  }
-  
-  .chat-area {
-    position: absolute;
-    top: 50%;
-    right: 180px;
-    transform: translateY(-50%);
-    width: 350px;
-    height: 650px;
-    backdrop-filter: blur(15px);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    z-index: 5;
-  }
-  
-  /* 반응형 디자인 */
-  @media (max-width: 1400px) {
-    .main-cards-area {
     /* 1. 카드들의 가로 크기 줄임: card-wrapper에서 담당. */
     /* 2. 전반적으로 조금 더 왼쪽에 오도록: left, transform 조정 */
-    left: 40%; 
-    transform: translate(-50%, -50%); /* 변환 유지 */
-    width: 680px; 
-    height: 500px; /* 카드 내용이 넘치지 않도록 높이 여유 확보 */
-    }
-  
-    .card-wrapper {
-    width: 320px; /* 원래 330px에서 더 줄여서 여백 확보 */
-    height: 240px; /* 카드 내용이 넘치지 않도록 높이 확보 */
-    /* 카드 내용 넘침 방지를 위해 각 카드 내부 컴포넌트에 overflow-y: auto; 또는 flex-grow: 1; 적용 필요 */
-    }
-  
-    .chat-area {
+    left: 40%;
+    transform: translate(-50%, -50%);
+    width: 680px;
+    height: 500px;
+  }
+
+  .card-wrapper {
+    width: 320px;
+    height: 240px;
+    /* 카드 내용이 넘치지 않도록 높이 확보 */
+  }
+
+  .chat-area {
     /* 채팅창이 카드와 겹치지 않도록 오른쪽으로 더 이동 */
-    right: 50px; /* 원래 180px에서 오른쪽으로 더 이동 */
-    width: 320px; /* 채팅창 너비 조정 */
-    height: 500px; /* 채팅창 높이 조정 */
-    }
+    right: 50px;
+    width: 320px;
+    height: 500px;
   }
   
-  @media (max-width: 1200px) {
+}
+
+@media (max-width: 1200px) {
   .homepage-container {
-    display: flex; /* 전체 컨테이너를 플렉스 박스로 만들어 하위 요소 흐름 제어 */
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center; /* 가운데 정렬 */
-    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능하도록 */
+    display: flex;
+    /* 전체 컨테이너를 플렉스 박스로 만들어 하위 요소 흐름 제어 */
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
   }
-    .main-cards-area {
-    position: relative; 
-    top: auto; /* absolute 속성 제거 */
-    left: auto; 
-    transform: none; /* 변환 제거 */
-    width: 90%; /* 화면 너비에 맞게 조정 */
-    max-width: 600px; /* 최대 너비 설정 */
-    height: auto; /* 콘텐츠에 따라 높이 자동 조절 */
-    margin-top: 150px; /* 상단 메뉴바와 겹치지 않도록 여백 추가 */
-    margin-bottom: 20px; /* 아래 채팅창과의 여백 */
-    display: grid; /* 카드를 그리드 레이아웃으로 배치 */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 최소 280px, 최대 1fr */
-    gap: 20px; /* 카드 간 간격 */
+
+  .mode-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 8.5px;
+  }
+
+  .main-cards-area {
+    /* position: relative; relative할 시 채팅창이 하단에 감 */
+    /* absolute 속성 제거 */
+    left: auto;
+    transform: none;
+    /* 변환 제거 */
+    width: 90%;
+    max-width: 600px;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    /* 아래 채팅창과의 여백 */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
     z-index: 5;
-    }
-  
-    .card-wrapper {
-    position: relative; /* absolute 해제 */
+  }
+
+  .card-wrapper {
+    position: relative;
+    /* absolute 해제 */
     top: auto;
     left: auto;
     right: auto;
     bottom: auto;
-    width: auto; /* 그리드 아이템이므로 자동 너비 */
-    height: 220px; /* 카드 내용 넘침 방지를 위해 높이 확보 (필요시 조정) */
-    }
-  
-    .chat-area {
-    /* 채팅창을 카드의 아래쪽으로 위치 */
-    position: relative; /* absolute 해제하고 relative로 전환 */
-    top: auto;
-    right: auto;
-    transform: none; /* 변환 제거 */
-    width: 90%; /* 화면 너비에 맞게 조정 */
-    max-width: 600px; /* 최대 너비 설정 */
-    height: 350px; /* 채팅창 높이 조정 */
-    margin: 0 auto 50px auto; /* 중앙 정렬 및 하단 여백 */
-    order: 2; /* 플렉스/그리드 컨테이너 내에서 순서 조정 (필요시) */
+    width: auto;
+    min-height: 280px;
+    height: 220px;
   }
 
-  }
-  
-  @media (max-width: 768px) {
-    .homepage-container {
-      flex-direction: column;
-    padding-top: 100px; /* 상단 고정 요소 때문에 패딩 추가 */
-    overflow-y: auto;
-    }
-  
-    .mode-buttons {
-      top: 20px;
-    left: 55%;
-    transform: translateX(-50%);
-    gap: 8px;
-    }
-  
-    .mode-btn {
-    width: 45px;
-    height: 45px;
-    font-size: 9px;
-    }
-  
-    .sidebar-menu {
-    top: 60px; /* 메뉴바를 더 위로 이동 */
+  .chat-area {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    /* 변환 제거 */
     width: 90%;
-    }
-  
-    .menu-list {
-      flex-direction: row;
-      flex-wrap: wrap;
-    gap: 5px;
+    max-width: 600px;
+    height: 350px;
+    margin: 0 auto 50px auto;
+    order: 2;
+    /* 플렉스/그리드 컨테이너 내에서 순서 조정 (필요시) */
+  }
+}
+
+@media (max-width: 768px) {
+  .homepage-container {
+    flex-direction: column;
+    padding-top: 80px;
+    /* 상단 고정 요소 때문에 패딩 추가 */
+    overflow-y: auto;
+  }
+
+  .card-wrapper.top-left {
+    margin-top: 0px;
+    /* 기존보다 위로 당기기 */
+    margin-bottom: 0px;
+  }
+
+  .mode-buttons {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 20px;
+  }
+
+  .mode-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 8.5px;
+  }
+
+  .sidebar-menu {
+    top: 60px;
+    /* 메뉴바를 더 위로 이동 */
+    width: 90%;
+  }
+
+  .menu-list {
+    margin: 40px 5px 40px 5px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
     justify-content: center;
-    }
-  
-    .menu-list li {
-    padding: 6px 12px;
+  }
+
+  .menu-list li {
+    padding: 5px 12px;
     font-size: 12px;
   }
-  
+
   .chat-area {
     order: -1;
-    position: relative; 
-    top: auto;
+    position: relative;
+    top: 50px;
     bottom: auto;
     right: auto;
     width: calc(100vw - 40px);
-    height: 250px; /* 채팅창 높이 조정 */
-    margin: 20px auto; /* 상하 여백 추가 */
+    height: 300px;
+    margin: 20px 5px 0px 5px;
+    /* 상하 여백 추가 */
     box-sizing: border-box;
-    }
-  
-    .main-cards-area {
-    position: relative; 
-      width: calc(100vw - 40px);
-    height: auto; /* 콘텐츠에 따라 높이 자동 조절 */
-    margin-top: 10px; /* 상단 메뉴바와 겹치지 않도록 조정 */
-    margin-bottom: 10px; /* 채팅창과의 여백 */
-    top: auto;
+  }
+
+  .main-cards-area {
+    position: relative;
+    width: calc(100vw - 40px);
+    height: auto;
+    /* 콘텐츠에 따라 높이 자동 조절 */
+    margin-top: 0px;
+
+    /* 채팅창과의 여백 */
     left: auto;
     transform: none;
     display: grid;
-    grid-template-columns: 1fr; /* 한 줄에 카드 하나씩 배치 */
-    gap: 15px;
-    }
-  
-    .card-wrapper {
+    gap: 20px;
+    justify-content: center;
+    align-items: start;
+    padding: 0px;
+  }
+
+  .card-wrapper {
+    position: relative;
+    /* absolute → relative */
     width: 100%;
-      height: 180px;
+    height: auto;
+    min-height: 280px;
+
     box-sizing: border-box;
     backdrop-filter: blur(15px);
     background: rgba(255, 255, 255, 0.1);
@@ -312,7 +362,17 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     cursor: pointer;
-    padding: 15px; 
-    }
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* 여백 제거 */
+    padding-top: 0;
+  }
   
+  .card-wrapper.calendar-card {
+    padding-top: 0;
+  }
+
 }

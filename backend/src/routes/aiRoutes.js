@@ -1,10 +1,10 @@
-// backend/src/routes/aiRoutes.js
 const express = require('express');
-const aiController = require('../controllers/aiController'); // AI 컨트롤러를 불러옵니다.
-
 const router = express.Router();
+const aiController = require('../controllers/aiController');
+const authMiddleware = require('../middleware/authMiddleware'); // 인증 미들웨어 불러오기
 
-// POST /api/ai/chat 엔드포인트: AI 코치와 대화 메시지를 주고받습니다.
-router.post('/chat', aiController.getChatResponse);
+// POST /api/ai/chat 엔드포인트 수정
+// authMiddleware를 추가하여 인증된 사용자만 접근 가능하도록 합니다.
+router.post('/chat', authMiddleware, aiController.handleChat);
 
 module.exports = router;

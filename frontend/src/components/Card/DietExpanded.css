@@ -1,0 +1,118 @@
+/* 전체 컨테이너: 크기 및 여백 최종 조정 */
+.diet-expanded-container {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  padding: 20px; /* 내부 여백 최종 조정 */
+  width: 95vw;
+  max-width: 640px; /* 너비 최종 축소 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 전체 간격 최종 축소 */
+  color: #374151;
+  font-family: 'Inter', 'Pretendard', sans-serif;
+}
+
+/* 헤더 */
+.diet-expanded-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid #f3f4f6; }
+.diet-expanded-header h2 { font-size: 1.25rem; font-weight: 900; color: #111827; }
+.close-button { background: none; border: none; color: #9ca3af; cursor: pointer; padding: 4px; }
+.close-button:hover { color: #374151; }
+
+/* AI 코치 */
+.ai-coach-tip { background-color: #f9fafb; border-radius: 10px; padding: 12px; font-size: 0.8rem; line-height: 1.5; }
+
+/* 영양소 요약 */
+.nutrient-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; }
+.nutrient-item { background-color: #f9fafb; padding: 8px 4px; border-radius: 8px; font-size: 0.7rem; color: #6b7280; }
+.nutrient-item span { display: block; font-size: 1.15rem; font-weight: 700; color: #111827; margin-bottom: 1px; }
+
+/* 메인 컨텐츠: Grid 레이아웃 및 간격 조정 */
+.diet-expanded-main { display: grid; grid-template-columns: 1fr 1.7fr 1fr; gap: 12px; }
+
+.water-intake-box, .recorded-meals-box, .diet-goal-box { background-color: #f9fafb; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; }
+.water-intake-box label, .recorded-meals-box label, .diet-goal-box label { font-weight: 600; font-size: 0.8rem; color: #343a40; margin-bottom: 8px; display: block; text-align: center; }
+
+/* ✅ 수분 섭취 섹션: 원형 프로그레스 바 스타일 + 찰랑이는 애니메이션 */
+.water-intake-box { align-items: center; justify-content: center; }
+.water-progress-container { position: relative; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; margin-top: 4px; }
+.water-progress-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  animation: slosh-effect 4s ease-in-out infinite; /* ✅ 찰랑이는 애니메이션 적용 */
+}
+.water-progress-bg, .water-progress-bar { fill: none; stroke-width: 8; }
+.water-progress-bg { stroke: #e5e7eb; }
+.water-progress-bar { stroke: #3b82f6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease-out; }
+.water-progress-text { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
+.water-progress-text .current { font-size: 1.5rem; font-weight: bold; color: #3b82f6; }
+.water-progress-text .target { font-size: 0.8rem; color: #6b7280; }
+
+/* ✅ 찰랑이는 효과를 위한 Keyframes 추가 */
+@keyframes slosh-effect {
+  0%, 100% {
+      transform: rotate(-90deg) translateY(0);
+  }
+  50% {
+      transform: rotate(-83deg) translateY(1px);
+  }
+}
+
+.meal-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.75rem; }
+.meal-list li { display: flex; justify-content: space-between; }
+.meal-list li span:last-child { font-weight: 600; }
+
+.diet-goal-box p { font-size: 0.7rem; margin: 2px 0 6px 0; text-align: center; }
+.progress-bar-container { width: 100%; height: 6px; background-color: #e5e7eb; border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, #34d399, #2dd4bf); border-radius: 3px; }
+.progress-percent { font-weight: bold; font-size: 0.7rem; }
+.goal-details { font-size: 0.65rem; color: #9ca3af; text-align: center; margin-top: auto; }
+.edit-goal-btn { background: none; border: none; color: #6b7280; text-decoration: underline; cursor: pointer; font-size: 0.65rem; padding: 2px; margin-top: 2px; }
+
+
+/* 주간 달성률 그래프: 높이 및 간격 조정 */
+.weekly-achievement-section { background-color: #f9fafb; border-radius: 10px; padding: 12px; }
+.weekly-achievement-section label { font-weight: 600; font-size: 0.8rem; color: #343a40; margin-bottom: 10px; display: block; }
+.weekly-chart { display: flex; justify-content: space-around; align-items: flex-end; height: 80px; }
+.day-achievement { width: 12%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; }
+.bar-wrapper { width: 26px; height: 100%; background-color: #e5e7eb; border-radius: 5px; display: flex; align-items: flex-end; }
+.bar { width: 100%; border-radius: 5px; transition: height 0.4s ease-out; position: relative; }
+.bar.good { background-color: #34d399; }
+.bar.over { background-color: #fbbf24; }
+.bar-tooltip { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #374151; color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.6rem; font-weight: 600; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; }
+.day-achievement:hover .bar-tooltip { opacity: 1; }
+.day-label { font-size: 0.7rem; color: #6b7280; font-weight: 500; padding: 2px 6px; border-radius: 6px; }
+
+/* '오늘' 글자 스타일 추가 */
+.day-label.today {
+  background-color: #FCE7F3; /* 옅은 핑크 배경 */
+  color: #DB2777; /* 짙은 핑크 글자 */
+  font-weight: 700;
+}
+
+/* 푸터: 버튼 크기 및 간격 조정 */
+.diet-expanded-footer { display: grid; grid-template-columns: 1.7fr 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid #f3f4f6; align-items: center; }
+.recommendation-section { background-color: #f9fafb; border-radius: 10px; padding: 12px; }
+.log-action-section { display: flex; justify-content: center; align-items: center; }
+.recommendation-section h4 { font-weight: 600; font-size: 0.8rem; color: #343a40; margin-bottom: 8px; }
+.recommend-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.75rem; }
+.recommend-list li { display: flex; justify-content: space-between; }
+.log-diet-btn {
+  width: 50%;
+  min-width: fit-content;
+  padding: 10px 14px; 
+  border-radius: 8px;
+  border: none;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+.log-diet-btn:hover { background-color: #2563eb; }

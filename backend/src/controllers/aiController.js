@@ -1,40 +1,36 @@
 // backend/src/controllers/aiController.js
-const aiService = require('../services/aiService'); // aiService에서 getAiResponse 함수를 불러옵니다.
-const User = require('../models/user'); // ✅ 추가: User 모델 불러오기
+const aiService = require('../services/aiService');
+// ChatHistory, User 모델은 나중에 DB 저장 시 필요하므로 일단 유지합니다.
+const ChatHistory = require('../models/ChatHistory');
+const User = require('../models/User');
 
-// AI 코치와 대화하고 응답을 반환하는 함수
-exports.getChatResponse = async (req, res) => {
-  // ✅ 수정: userId 대신 nickname을 req.body에서 가져옵니다.
-  const { message, nickname, pin } = req.body;
+exports.handleChat = async (req, res) => {
+    const user = req.user;
+    const { message, history } = req.body;
 
-  if (!message) {
-    return res.status(400).json({ message: '메시지를 입력해주세요.' });
-  }
-  // 이제 nickname 변수가 정의되었으므로 이 조건문이 정상 작동합니다.
-  if (!nickname || !pin) {
-    return res.status(400).json({ message: '닉네임과 PIN 번호가 필요합니다.' });
-  }
-
-  try {
-    // 1. 사용자 정보 가져오기 (닉네임과 PIN으로 인증)
-    // 이제 User 모델이 불러와졌으므로 정상 작동합니다.
-    const user = await User.findOne({ nickname, pin });
-    if (!user) {
-      return res.status(404).json({ message: '존재하지 않는 사용자이거나 PIN이 일치하지 않습니다.' });
+    if (!message) {
+        return res.status(400).json({ message: '메시지를 입력해주세요.' });
     }
 
-    // 2. aiService를 통해 LLM 응답 생성 및 파싱 시도
-    const { aiResponseMessage, extractedData } = await aiService.getAiChatResponse(message, user);
+    try {
+        const userContext = {
+            nickname: user.nickname,
+            targetWeight: user.targetWeight,
+            targetCalories: user.targetCalories,
+        };
+        
+        // ✅ 1. 서비스로부터 '대화용 답변'과 '추출 데이터'를 분리해서 받음
+        const { conversationalReply, extractedData } = await aiService.getAiChatResponse(message, history || [], userContext);
 
-    // 3. 응답 전송
-    res.status(200).json({
-      message: 'AI 응답을 성공적으로 받았습니다.',
-      aiResponse: aiResponseMessage,
-      extractedData: extractedData || null
-    });
+        // (향후 이곳에 extractedData를 DB에 저장하는 로직을 추가할 수 있습니다)
+        
+        // ✅ 2. 프론트엔드에 '대화용 답변'과 '추출된 데이터'를 각각 전달
+        res.status(200).json({
+            reply: conversationalReply, // 사용자에게 보여줄 순수한 대화 내용
+            extractedData: extractedData // 프론트에서 추가 처리를 위한 데이터
+        });
 
-  } catch (error) {
-    console.error('AI 코치 응답 생성 중 오류 발생:', error);
-    res.status(500).json({ message: 'AI 코치와의 통신에 문제가 발생했습니다.', error: error.message });
-  }
+    } catch (error) {
+        res.status(500).json({ message: '하루핏 AI 매니저와의 통신에 문제가 발생했습니다.', error: error.message });
+    }
 };

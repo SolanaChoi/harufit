@@ -1,0 +1,130 @@
+/* AboutUsExpanded.css */
+
+/* 폰트는 앱 전체의 감성을 위해 중요하지. */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap');
+
+.about-us-content-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 100;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 24px 36px;
+    width: 850px;
+    height: 540px;
+    animation: zoomIn 0.4s ease;
+    overflow: hidden;
+    display: flex;
+    flex: 0.8;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    overflow-y: auto;
+    /* ✨ 추가: 내용이 넘칠 때 스크롤바 생성 */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+@keyframes zoomIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    text-align: center;
+    transform: translateY(-20px);
+}
+
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: #29cf45;
+}
+
+.modal-content h2 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.team-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.team-member-card {
+    background-color: #ffffff;
+    padding: 15px;
+    width: 220px;
+}
+
+.member-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 40%;
+    background-color: #e9ecef;
+    margin: 0 auto 15px;
+    background-size: cover;
+    background-position: center;
+}
+
+.team-member-card h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0d4379;
+}
+
+.team-member-card .role {
+    margin: 10;
+    font-size: 15px;
+    color: #7f9cb9;
+    font-weight: 400;
+    white-space: pre-line;
+}
+
+.team-member-card .intro-text {
+    font-size: 13px;
+    color: #495057;
+    margin-top: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: center;
+    white-space: pre-line;
+}

@@ -1,22 +1,28 @@
-@import 'C:\Course_Video\harufit\frontend\src\styles\common.css';
+@import '../../styles/common.css';
 
 .status-card {
     padding: var(--spacing-lg);
     min-height: 0;
-    /* ✨ 추가: Flex/Grid 아이템에서 내용이 넘치지 않게 */
 }
 
+.card-header {
+    position: relative;
+}
+
+.status-card:hover .expand-btn {
+    opacity: 0.7;
+}
 
 .status-content {
     display: flex;
     flex-direction: column;
-    flex: 0.85;
-    overflow-y: auto;
-    /* ✨ 추가: 내용이 넘칠 때 스크롤바 생성 */
-    -ms-overflow-style: none;
+    overflow-y: auto; /* 내용이 넘칠 때 스크롤바 생성 */
+    -ms-overflow-style: none; /* 스크롤바 숨김*/
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+    justify-content: center;
+
 }
 
 .status-content::-webkit-scrollbar {
@@ -27,10 +33,12 @@
 .status-item {
     display: flex;
     align-items: center;
-    padding: 10px;
+    flex-wrap: nowrap;
+    /* ✨ 줄바꿈 금지 */
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     backdrop-filter: blur(90px);
+    padding: 20px 10px 20px 10px
 }
 
 .status-details {
@@ -46,10 +54,68 @@
     margin: 8px;
 }
 
+.status-value {
+    color: #f8ee65;  
+    font-weight: bold; 
+}
+
 .status-message {
     font-style: italic;
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.7);
     font-weight: bold;
     margin-top: 2px;
+}
+
+/* 아이콘 박스 */
+.status-icon {
+    width: 105px;
+    height: 80px;
+    flex-shrink: 0;
+    margin-right: -15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-icon img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: brightness(0.95);
+}
+
+@media (max-width: 768px) {
+    .status-card {
+        padding: 0.8rem;
+        max-height: 280px;
+    }
+
+    .status-icon {
+        font-size: 50px;
+    }
+
+    .status-text {
+        font-size: 0.8rem;
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .status-card {
+        padding: 0.5rem;
+    }
+
+    .status-icon {
+        font-size: 42px;
+    }
+
+    .status-text {
+        font-size: 0.95rem;
+    }
+
+    .status-content {
+        flex-direction: column;
+        align-items: center;
+    }
 }
