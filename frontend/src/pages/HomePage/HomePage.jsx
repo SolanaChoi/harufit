@@ -14,11 +14,10 @@ import WorkoutExpanded from "../../components/Card/WorkoutExpanded.jsx"
 import DietExpanded from "../../components/Card/DietExpanded.jsx"
 import AboutUsExpanded from "../../components/Card/AboutUsExpanded.jsx"
 
-
 import useAuth from '../../hooks/useAuth';
 // ✅ 실제 API 호출 관련 코드는 주석 처리합니다.
-// import useApi from '../../hooks/useApi';
-// import { API_ENDPOINTS } from '../../utils/constants';
+import useApi from '../../hooks/useApi';
+import { API_ENDPOINTS } from '../../utils/constants';
 
 export default function HomePage() {
   const location = useLocation()
@@ -34,15 +33,21 @@ export default function HomePage() {
   const [isAboutExpanded, setAboutExpanded] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState("AboutUs")
 
-  const handleMenuClick = (menuItem) => {
-    setActiveMenuItem(menuItem)
-    console.log(`Selected menu: ${menuItem}`)
-  }
 
   // ManagerChat에 포커스 여부 제어하는 상태, 숫자 변경하여 useEffect 트리거로 ManagerChat 반응
   const [triggerChatFocus, setTriggerChatFocus] = useState(0);
   // 어떤 모달에서 ManagerChat을 트리거했는지 (초기 메시지 설정을 위함)
   const [chatTriggerSource, setChatTriggerSource] = useState(null); // 'diet', 'workout', 'status'
+
+  const { data: statusData, loading: statusLoading, error: statusError } = useApi(API_ENDPOINTS.STATUS_TODAY);
+  const { data: dietData, loading: dietLoading, error: dietError } = useApi(API_ENDPOINTS.DIET_TODAY);
+  const { data: workoutData, loading: workoutLoading, error: workoutError } = useApi(API_ENDPOINTS.WORKOUT_TODAY);
+  const { data: calendarData, loading: calendarLoading, error: calendarError } = useApi(API_ENDPOINTS.CALENDAR_SUMMARY);
+
+  const handleMenuClick = (menuItem) => {
+    setActiveMenuItem(menuItem)
+    console.log(`Selected menu: ${menuItem}`)
+  }
 
   // 식단 기록 매니저에게 보내는 함수
   const handleLogDietToManager = () => {
@@ -56,7 +61,7 @@ export default function HomePage() {
     setWorkoutExpanded(false);
     setChatTriggerSource('workout');
     setTriggerChatFocus(prev => prev + 1);
-    console.log('HomePage: handleLogWorkoutToManager 호출됨. chatTriggerSource:', 'workout', 'triggerChatFocus (다음 값):', triggerChatFocus + 1); 
+    console.log('HomePage: handleLogWorkoutToManager 호출됨. chatTriggerSource:', 'workout', 'triggerChatFocus (다음 값):', triggerChatFocus + 1);
   };
 
   // 상태 기록 매니저에게 보내는 함수
@@ -64,41 +69,25 @@ export default function HomePage() {
     setStatusExpanded(false);
     setChatTriggerSource('status');
     setTriggerChatFocus(prev => prev + 1);
-    console.log('HomePage: handleLogStatusToManager 호출됨. chatTriggerSource:', 'status', 'triggerChatFocus (다음 값):', triggerChatFocus + 1); 
+    console.log('HomePage: handleLogStatusToManager 호출됨. chatTriggerSource:', 'status', 'triggerChatFocus (다음 값):', triggerChatFocus + 1);
   };
 
-  // 실제 API 호출 대신 사용할 가짜 데이터 (Mock Data)
-  const mockData = {
-    status: {
-      weight: 75.5,
-      bodyFat: 22.1,
-      muscleMass: 31.2,
-    },
-    workout: {
-      totalTime: "1h 20m",
-      totalCalories: 450,
-      parts: ["가슴", "어깨"],
-    },
-    diet: {
-      eatenMeals: [
-        { type: '점심', menu: '제육볶음 + 쌀밥', kcal: 700 },
-        { type: '저녁', menu: '연어 스테이크', kcal: 400 }
-      ],
-      waterIntake: {
-        current: 1.5,
-        goal: 2,
-      },
-      recommendedMeal: {
-        type: '아침',
-        menu: '그릭요거트, \n 견과류',
-      }
-    },
-    calendar: [
-      { date: "2025-07-16", hasWorkout: true, hasDiet: true },
-      { date: "2025-07-15", hasWorkout: false, hasDiet: true },
-      { date: "2025-07-14", hasWorkout: true, hasDiet: false },
-    ]
-  };
+  // ✅ [수정] 가짜 데이터(mockData) 객체를 삭제했습니다.
+
+  // ✅ [수정] API 로딩 및 에러 상태를 처리합니다.
+  const isLoading = statusLoading || dietLoading || workoutLoading || calendarLoading;
+  const hasError = statusError || dietError || workoutError || calendarError;
+
+  if (isLoading) {
+    // 실제 앱에서는 이곳에 로딩 스피너 컴포넌트를 넣으면 좋습니다.
+    return <div>데이터를 불러오는 중입니다...</div>;
+  }
+
+  if (hasError) {
+    // 실제 앱에서는 더 친절한 에러 안내 페이지를 보여줄 수 있습니다.
+    return <div>데이터를 불러오는 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.</div>;
+  }
+
 
 
   return (
@@ -143,21 +132,20 @@ export default function HomePage() {
         </ul>
       </nav>
       <div className="main-cards-area">
-        {/* ✅ 각 카드에 가짜 데이터를 props로 전달합니다. */}
+        {/* ✅ [수정] 각 카드에 mockData 대신 실제 API 데이터를 props로 전달합니다. */}
         <div className="card-wrapper top-left">
-          <Calendar mode={selectedMode} data={mockData.calendar} onExpand={() => setCalendarExpanded(true)} />
+          <Calendar mode={selectedMode} data={calendarData} onExpand={() => setCalendarExpanded(true)} />
         </div>
         <div className="card-wrapper top-right">
-          <StatusCard mode={selectedMode} data={mockData.status} onExpand={() => setStatusExpanded(true)} />
+          <StatusCard mode={selectedMode} data={statusData} onExpand={() => setStatusExpanded(true)} />
         </div>
         <div className="card-wrapper bottom-left">
-          <DietCard mode={selectedMode} data={mockData.diet} onExpand={() => setDietExpanded(true)} />
+          <DietCard mode={selectedMode} data={dietData} onExpand={() => setDietExpanded(true)} />
         </div>
         <div className="card-wrapper bottom-right">
-          <WorkoutCard mode={selectedMode} data={mockData.workout} onExpand={() => setWorkoutExpanded(true)} />
+          <WorkoutCard mode={selectedMode} data={workoutData} onExpand={() => setWorkoutExpanded(true)} />
         </div>
       </div>
-
 
       {isAboutExpanded && (
         <div className="modal-backdrop" onClick={() => setAboutExpanded(false)}>
@@ -166,7 +154,6 @@ export default function HomePage() {
           </div>
         </div>
       )}
-
 
       {isCalendarExpanded && (
         <div className="modal-backdrop" onClick={() => setCalendarExpanded(false)}>
@@ -178,7 +165,7 @@ export default function HomePage() {
       {isStatusExpanded && (
         <div className="modal-backdrop" onClick={() => setStatusExpanded(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <StatusExpanded onClose={() => setStatusExpanded(false)} onLogStatusToManager={handleLogStatusToManager}/>
+            <StatusExpanded onClose={() => setStatusExpanded(false)} onLogStatusToManager={handleLogStatusToManager} />
           </div>
         </div>
       )}
@@ -198,7 +185,7 @@ export default function HomePage() {
       )}
 
       <div className="chat-area">
-        <ManagerChat mode={selectedMode} shouldFocusInput={triggerChatFocus} triggerSource={chatTriggerSource}/>
+        <ManagerChat mode={selectedMode} shouldFocusInput={triggerChatFocus} triggerSource={chatTriggerSource} />
       </div>
     </div>
   )
